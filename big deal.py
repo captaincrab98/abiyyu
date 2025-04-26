@@ -1,42 +1,38 @@
 import streamlit as st
-import pandas as pd
 import random
-from streamlit_extras.stylable_container import stylable_container
+import time
 
 st.set_page_config(page_title="ChemEmotion - Mood dari Makanan", page_icon="🧠", layout="wide")
 
-# Custom CSS untuk mempercantik tampilan
-st.markdown("""
+# Custom CSS untuk mempercantik
+st.markdown(
+    """
     <style>
-        .main-title {
-            font-size: 3em;
-            font-weight: bold;
-            color: #4CAF50;
-            text-align: center;
-            margin-bottom: 0.5em;
-        }
-        .subtitle {
-            font-size: 1.5em;
-            text-align: center;
-            color: #555;
-            margin-bottom: 1.5em;
-        }
-        .compound-card {
-            background-color: #f0f9f9;
-            padding: 1em;
-            border-radius: 12px;
-            margin-bottom: 1em;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-        }
-        .mood-emoji {
-            font-size: 2em;
-        }
+    .title {
+        font-size:50px; 
+        font-weight:bold; 
+        text-align:center;
+        color: #4CAF50;
+    }
+    .subtitle {
+        font-size:20px;
+        text-align:center;
+        color: gray;
+    }
+    .mood-emoji {
+        font-size:50px;
+        text-align:center;
+        margin: 20px 0;
+    }
     </style>
-""", unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
-# Title dan subtitle
-st.markdown('<div class="main-title">\ud83e\udde0 ChemEmotion</div>', unsafe_allow_html=True)
+# Judul Besar
+st.markdown('<div class="title">🧠 ChemEmotion</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Prediksi Mood Berdasarkan Senyawa Kimia dalam Makanan</div>', unsafe_allow_html=True)
+st.markdown("---")
 
 # Database senyawa dan efek emosi
 compound_effects = {
@@ -51,7 +47,6 @@ compound_effects = {
     "Asam lemak omega-3": "Menurunkan stres, meningkatkan konsentrasi"
 }
 
-# Pemetaan makanan ke senyawa dominan
 food_compounds = {
     "Coklat Hitam": ["Kafein", "Feniletilamin", "Theobromine", "Flavonoid"],
     "Keju": ["Triptofan", "Tirosin"],
@@ -64,29 +59,57 @@ food_compounds = {
     "Oatmeal": ["Triptofan", "Flavonoid"]
 }
 
-# Input makanan dari user
+# Session state untuk reset input
+if 'selected_food' not in st.session_state:
+    st.session_state.selected_food = ""
+
+# Container untuk input makanan
 with st.container():
-    food = st.text_input("\ud83c\udf7d\ufe0f Masukkan nama makanan / bahan masakan:", placeholder="Contoh: Coklat Hitam, Kopi, Pisang").strip().title()
+    st.subheader("🍽️ Pilih Makanan atau Bahan Masakan:")
+    
+    col_input, col_reset = st.columns([4, 1])
 
-if food:
-    if food in food_compounds:
-        st.success(f"\u2705 {food} ditemukan dalam database!")
-        compounds = food_compounds[food]
+    with col_input:
+        selected = st.selectbox(
+            "Pilih dari daftar makanan:",
+            [""] + list(food_compounds.keys()),
+            index=0,
+            key="selected_food"
+        )
+    with col_reset:
+        if st.button("🔄 Reset"):
+            st.session_state.selected_food = ""
 
-        st.markdown("### \ud83e\uddea Senyawa Kimia Terkait:")
-        
-        for comp in compounds:
-            with stylable_container("compound-card", key=comp):
-                st.markdown(f"**{comp}**: {compound_effects.get(comp, 'Efek tidak tersedia')}")
+# Logika jika makanan dipilih
+if st.session_state.selected_food:
+    food = st.session_state.selected_food
+    with st.spinner('🔍 Menganalisis makananmu...'):
+        time.sleep(1)  # loading efek
 
-        st.markdown("### \ud83c\udf08 Prediksi Mood:")
-        emojis = ["😃", "😴", "😵", "🤯", "😌", "😎"]
-        mood_summary = random.sample(emojis, k=min(3, len(compounds)))
-        st.markdown(f"<div class='mood-emoji'>{' '.join(mood_summary)}</div>", unsafe_allow_html=True)
-    else:
-        st.warning("\u26a0\ufe0f Makanan tidak ditemukan dalam database. Coba lainnya!")
+        if food in food_compounds:
+            st.success(f"✅ {food} ditemukan!")
 
-st.markdown("""---
-### \ud83d\udca1 Ingin menambahkan makanan baru?
-Versi lanjutan akan mendukung input custom dan analisis AI!
-""")
+            compounds = food_compounds[food]
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.subheader("🧪 Senyawa Kimia Terkait:")
+                for comp in compounds:
+                    st.markdown(f"- **{comp}**")
+            
+            with col2:
+                st.subheader("🎯 Efek Emosi:")
+                for comp in compounds:
+                    st.markdown(f"- {compound_effects.get(comp, 'Efek tidak tersedia')}")
+
+            st.markdown("---")
+            st.subheader("🌈 Mood Gabungan:")
+            emojis = ["😃", "😴", "😵", "🤯", "😌", "😎", "😍", "🤓"]
+            mood_summary = random.sample(emojis, k=min(3, len(compounds)))
+            st.markdown(f"<div class='mood-emoji'>{' '.join(mood_summary)}</div>", unsafe_allow_html=True)
+
+        else:
+            st.warning("⚠️ Makanan tidak ditemukan dalam database. Coba lainnya!")
+
+st.markdown("---")
+st.info("💡 Ingin menambahkan makanan baru? Versi mendatang akan mendukung input custom dan analisis AI! 🚀")
