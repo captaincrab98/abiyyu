@@ -1,15 +1,34 @@
 import streamlit as st
 import pandas as pd
 
+# ======= Fungsi untuk Mengatur Background dari URL =======
+import streamlit as st
+
+def set_background_url(image_url):
+    st.markdown(f"""
+        <style>
+        body {{
+            background-image: url("{image_url}");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }}
+        [data-testid="stAppViewContainer"] {{
+            background-color: rgba(255, 255, 255, 0.85); /* Putih semi-transparan */
+            padding: 20px;
+            border-radius: 10px;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+
+# URL gambar background dari Unsplash
+background_image_url = "https://images.unsplash.com/photo-1533622582825-b55a4100640b"
+set_background_url(background_image_url)
+
+
 # ======= CSS Styling dan Animasi =======
 st.markdown("""
     <style>
-    @keyframes moveBackground {
-        0% { background-position: 0 0; }
-        50% { background-position: 100% 100%; }
-        100% { background-position: 0 0; }
-    }
-
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
@@ -191,7 +210,7 @@ elif menu_pilihan == "Tentang Kami":
     st.markdown("""
     Aplikasi **Deteksi Senyawa Organik dalam Makanan** dikembangkan untuk memberikan edukasi mengenai kandungan senyawa dalam makanan sehari-hari.
 
-    **🎯 Tujuan:**
+    **🌟 Tujuan:**
     - Membantu mengenali senyawa alami dan tambahan pada makanan.
     - Memberikan informasi efek senyawa terhadap kesehatan.
 
