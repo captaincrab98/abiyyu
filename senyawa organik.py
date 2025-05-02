@@ -201,6 +201,6 @@ elif menu_pilihan == "Tentang Kami":
     - Visualisasi efek senyawa dengan skor warna.
 
     **👨‍💻 Pengembang:**  
-    [Ganti dengan Nama Anda]  
-    Versi 1.0 – 2025
+    [kelompok 5 PMIP E2]  
+    2025
     """)
