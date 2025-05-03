@@ -1,37 +1,29 @@
 import streamlit as st
 import pandas as pd
-
-# ======= Fungsi untuk Mengatur Background dari URL =======
-import streamlit as st
-
-def set_background_url(image_url):
-    st.markdown(f"""
-        <style>
-        body {{
-            background-image: url("{image_url}");
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-        }}
-        [data-testid="stAppViewContainer"] {{
-            background-color: rgba(255, 255, 255, 0.85); /* Putih semi-transparan */
-            padding: 20px;
-            border-radius: 10px;
-        }}
-        </style>
-    """, unsafe_allow_html=True)
-
-# URL gambar background dari Unsplash
-background_image_url = "https://images.unsplash.com/photo-1533622582825-b55a4100640b"
-set_background_url(background_image_url)
-
-
-# ======= CSS Styling dan Animasi =======
+# ======= CSS Styling dan Background =======
 st.markdown("""
     <style>
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+
+    [data-testid="stAppViewContainer"]::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.1); 
+        z-index: -1;
+    }
+
+    [data-testid="stAppViewContainer"] {
+        background-image: url("https://images.unsplash.com/photo-1546069901-ba9599a7e63c");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        position: relative; 
     }
 
     .fade-title {
@@ -63,6 +55,7 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 # ======= Judul Aplikasi =======
 st.markdown('<div class="fade-title">🍽️ Deteksi Senyawa Organik dalam Makanan</div>', unsafe_allow_html=True)
