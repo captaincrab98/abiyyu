@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+
 # ======= CSS Styling dan Background =======
 st.markdown("""
     <style>
@@ -8,24 +9,36 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
 
-    [data-testid="stAppViewContainer"]::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background-color: rgba(0, 0, 0, 0.1); 
-        z-index: -1;
-    }
-
+    /* Background utama dengan overlay */
     [data-testid="stAppViewContainer"] {
         background-image: url("https://images.unsplash.com/photo-1546069901-ba9599a7e63c");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        position: relative; 
     }
 
+    [data-testid="stAppViewContainer"]::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0;
+        right: 0; bottom: 0;
+        background-color: rgba(255, 255, 255, 0.2);
+        z-index: -1;
+    }
+
+    /* Perbaikan sidebar */
+    [data-testid="stSidebar"] > div:first-child {
+        background-color: rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(5px);
+    }
+
+    /* Konten utama */
+    .main .block-container {
+        background-color: transparent !important;
+    }
+
+    /* Judul animasi */
     .fade-title {
         font-size: 30px;
         font-weight: bold;
@@ -52,6 +65,11 @@ st.markdown("""
         color: #fbc02d;
         font-weight: bold;
         animation: fadeIn 1s ease-in;
+    }
+
+    /* Hapus garis putih di sidebar */
+    .st-emotion-cache-1cypcdb {
+        padding-right: 0 !important;
     }
     </style>
 """, unsafe_allow_html=True)
