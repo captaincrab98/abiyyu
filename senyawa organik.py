@@ -9,9 +9,9 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Background utama dengan overlay */
     [data-testid="stAppViewContainer"] {
-        background-image: url("https://images.unsplash.com/photo-1546069901-ba9599a7e63c");
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0,0,0,0.5)), 
+                    url("https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -19,61 +19,58 @@ st.markdown("""
     }
 
     [data-testid="stAppViewContainer"]::before {
-        content: "";
-        position: fixed;
-        top: 0; left: 0;
-        right: 0; bottom: 0;
-        background-color: rgba(255, 255, 255, 0.2);
-        z-index: -1;
+        content: none;
     }
 
-    /* Perbaikan sidebar */
-    [data-testid="stSidebar"] > div:first-child {
-        background-color: rgba(255, 255, 255, 0.8) !important;
-        backdrop-filter: blur(5px);
-    }
-
-    /* Konten utama */
     .main .block-container {
-        background-color: transparent !important;
+        background-color: rgba(255, 255, 255, 0.05); 
+        padding: 2rem;
+        border-radius: 12px;
     }
 
-    /* Judul animasi */
-    .fade-title {
+    [data-testid="stSidebar"] > div:first-child {
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        backdrop-filter: blur(12px);
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    /* Warna teks utama */
+    body, .main, .main .block-container, .markdown-text-container, .stMarkdown, .stText, .stDataFrame div, .stDataFrame table, .css-10trblm, .css-1cpxqw2, .css-1d391kg, .css-ffhzg2 {
+    color: white!important;
+
+    }
+
+
+    
+    /* Gaya teks umum */
+body, .main, .markdown-text-container, .stMarkdown, .stText, .stDataFrame div, .stDataFrame table,
+.css-10trblm, .css-1cpxqw2, .css-1d391kg, .css-ffhzg2, .st-bw, .st-by, .st-c3, .st-c4, .st-c5,
+h1, h2, h3, h4, h5, h6, p, span, label, div, .stTextInput label,  {
+    color: white !important;
+}
+
+/* Header dan subheader */
+h1, h2, h3, h4, h5, h6 {
+    color: white !important;
+
+}
+
+
+        .fade-title {
         font-size: 30px;
         font-weight: bold;
-        color: #2c6e49;
+        color: #ffffff;
         text-align: center;
         animation: fadeIn 1.5s ease-in-out;
         margin-top: 20px;
         margin-bottom: 30px;
     }
 
-    .good {
-        color: #388e3c;
-        font-weight: bold;
-        animation: fadeIn 1s ease-in;
-    }
-
-    .bad {
-        color: #d32f2f;
-        font-weight: bold;
-        animation: fadeIn 1s ease-in;
-    }
-
-    .neutral {
-        color: #fbc02d;
-        font-weight: bold;
-        animation: fadeIn 1s ease-in;
-    }
-
-    /* Hapus garis putih di sidebar */
-    .st-emotion-cache-1cypcdb {
-        padding-right: 0 !important;
-    }
+    .good { color: #a5d6a7; font-weight: bold; animation: fadeIn 1s ease-in; }
+    .bad { color: #ef9a9a; font-weight: bold; animation: fadeIn 1s ease-in; }
+    .neutral { color: #ffe082; font-weight: bold; animation: fadeIn 1s ease-in; }
     </style>
 """, unsafe_allow_html=True)
-
 
 # ======= Judul Aplikasi =======
 st.markdown('<div class="fade-title">🍽️ Deteksi Senyawa Organik dalam Makanan</div>', unsafe_allow_html=True)
@@ -152,10 +149,10 @@ def tampilkan_senyawa(judul, daftar_senyawa):
 
 # ======= Halaman Home =======
 if menu_pilihan == "Home":
-    menu = st.selectbox("Pilih Metode Deteksi", ("Deteksi dari Nama Makanan", "Deteksi dari File CSV"))
+    menu = st.selectbox("", ("Deteksi dari Nama Makanan", "Deteksi dari File CSV"))
 
     if menu == "Deteksi dari Nama Makanan":
-        makanan_input = st.text_input("Masukkan nama makanan:")
+        makanan_input = st.text_input(":")
         if st.button("Cari Senyawa"):
             if makanan_input:
                 makanan = makanan_input.strip().title()
@@ -203,7 +200,7 @@ if menu_pilihan == "Home":
 # ======= Kamus Senyawa =======
 elif menu_pilihan == "Kamus Senyawa":
     st.subheader("📖 Kamus Senyawa Organik")
-    senyawa_dipilih = st.selectbox("Pilih Senyawa", sorted(organic_compounds.keys()))
+    senyawa_dipilih = st.selectbox("", sorted(organic_compounds.keys()))
     if senyawa_dipilih:
         data = organic_compounds[senyawa_dipilih]
         efek = data["efek"]
@@ -219,18 +216,22 @@ elif menu_pilihan == "Kamus Senyawa":
 elif menu_pilihan == "Tentang Kami":
     st.subheader("👩‍🔬 Tentang Aplikasi Ini")
     st.markdown("""
-    Aplikasi **Deteksi Senyawa Organik dalam Makanan** dikembangkan untuk memberikan edukasi mengenai kandungan senyawa dalam makanan sehari-hari.
+    <div class="wrapper">
+        <p>Aplikasi <strong>Deteksi Senyawa Organik dalam Makanan</strong> dikembangkan untuk memberikan edukasi mengenai kandungan senyawa dalam makanan sehari-hari.</p>
 
-    **🌟 Tujuan:**
-    - Membantu mengenali senyawa alami dan tambahan pada makanan.
-    - Memberikan informasi efek senyawa terhadap kesehatan.
+    🌟 Tujuan:</h4>
+        <ul>
+            <li>Membantu mengenali senyawa alami dan tambahan pada makanan.</li>
+            <li>Memberikan informasi efek senyawa terhadap kesehatan.</li>
+        </ul>
 
-    **🧠 Fitur Utama:**
-    - Deteksi senyawa dari input makanan atau file CSV.
-    - Kamus senyawa interaktif lengkap.
-    - Visualisasi efek senyawa dengan skor warna.
+    🧠 Fitur Utama:
+        <ul>
+            <li>Deteksi senyawa dari input makanan atau file CSV.</li>
+            <li>Visualisasi efek senyawa dengan skor warna.</li>
+        </ul>
 
-    **👨‍💻 Pengembang:**  
-    [kelompok 5 PMIP E2]  
-    2025
-    """)
+    <h4>👨‍💻 Pengembang:</h4>
+        <p>[Kelompok 5 PMIP E2]<br>2025</p>
+    </div>
+    """, unsafe_allow_html=True)
