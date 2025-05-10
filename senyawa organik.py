@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-# ======= CSS Styling dan Background =======
+# untuk background dan gaya gayaannnnnnnn
 st.markdown("""
     <style>
     @keyframes fadeIn {
@@ -72,10 +72,10 @@ h1, h2, h3, h4, h5, h6 {
     </style>
 """, unsafe_allow_html=True)
 
-# ======= Judul Aplikasi =======
+# ambajudul
 st.markdown('<div class="fade-title">🍽️ Deteksi Senyawa Organik dalam Makanan</div>', unsafe_allow_html=True)
 
-# ======= Sidebar Navigasi =======
+# sidebar tawi
 menu_pilihan = st.sidebar.radio("Navigasi", ["Home", "Kamus Senyawa", "Tentang Kami"])
 
 # ======= Kamus Senyawa Organik =======
