@@ -151,23 +151,19 @@ def tampilkan_senyawa(judul, daftar_senyawa):
 if menu_pilihan == "Home":
     menu = st.selectbox("", ("Deteksi dari Nama Makanan", "Deteksi dari File CSV"))
 
-    if menu == "Deteksi dari Nama Makanan":
-        makanan_input = st.text_input(":")
-        if st.button("Cari Senyawa"):
-            if makanan_input:
-                makanan = makanan_input.strip().title()
-                if makanan in makanan_to_senyawa:
-                    baik, berbahaya, netral = [], [], []
-                    for senyawa in makanan_to_senyawa[makanan]:
-                        efek = organic_compounds[senyawa]["efek"]
-                        (baik if efek == "Baik" else berbahaya if "Berbahaya" in efek else netral).append(senyawa)
-                    tampilkan_senyawa("✅ Senyawa Baik untuk Tubuh", baik)
-                    tampilkan_senyawa("⚠️ Senyawa Berbahaya jika Berlebihan", berbahaya)
-                    tampilkan_senyawa("🔶 Senyawa Netral", netral)
-                else:
-                    st.warning("Data senyawa belum tersedia untuk makanan tersebut.")
-            else:
-                st.warning("Mohon masukkan nama makanan.")
+if menu == "Deteksi dari Nama Makanan":
+    daftar_makanan = sorted(makanan_to_senyawa.keys())
+    makanan_input = st.selectbox("Pilih nama makanan:", daftar_makanan)
+    if makanan_input:
+        makanan = makanan_input.strip().title()
+        baik, berbahaya, netral = [], [], []
+        for senyawa in makanan_to_senyawa[makanan]:
+            efek = organic_compounds[senyawa]["efek"]
+            (baik if efek == "Baik" else berbahaya if "Berbahaya" in efek else netral).append(senyawa)
+        tampilkan_senyawa("✅ Senyawa Baik untuk Tubuh", baik)
+        tampilkan_senyawa("⚠️ Senyawa Berbahaya jika Berlebihan", berbahaya)
+        tampilkan_senyawa("🔶 Senyawa Netral", netral)
+
 
     elif menu == "Deteksi dari File CSV":
         uploaded_file = st.file_uploader("Upload file CSV", type=["csv"])
