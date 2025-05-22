@@ -72,13 +72,13 @@ h1, h2, h3, h4, h5, h6 {
     </style>
 """, unsafe_allow_html=True)
 
-# ambajudul
+# judul
 st.markdown('<div class="fade-title">🍽️ Deteksi Senyawa Organik dalam Makanan</div>', unsafe_allow_html=True)
 
-# sidebar tawi
+# sidebar
 menu_pilihan = st.sidebar.radio("Navigasi", ["Home", "Kamus Senyawa", "Tentang Kami"])
 
-# ======= Kamus Senyawa Organik =======
+#buat kamus senyawaaaa
 organic_compounds = {
     "Aflatoksin": {"kategori": "Toksin alami", "fungsi": "Racun dari jamur.", "efek": "Berbahaya", "skor": 10},
     "Vitamin C": {"kategori": "Vitamin", "fungsi": "Antioksidan, meningkatkan daya tahan tubuh.", "efek": "Baik", "skor": 95},
@@ -105,7 +105,7 @@ organic_compounds = {
     "Bromelain": {"kategori": "Enzim", "fungsi": "Membantu pencernaan protein.", "efek": "Baik", "skor": 85}
 }
 
-# ======= Pemetaan Makanan -> Senyawa =======
+# utnuk input senyawa ke makanannya
 makanan_to_senyawa = {
     "Jeruk": ["Vitamin C", "Asam Amino", "Fruktosa", "Asam Folat"],
     "Kacang Tanah": ["Asam Amino", "Lemak Jenuh", "Aflatoksin", "Tiamin (Vitamin B1)"],
@@ -130,7 +130,7 @@ makanan_to_senyawa = {
     "Paprika": ["Vitamin C", "Kalsium"]
 }
 
-# ======= Fungsi Menampilkan Senyawa =======
+# buat nampilin 
 def tampilkan_senyawa(judul, daftar_senyawa):
     if daftar_senyawa:
         st.subheader(judul)
@@ -147,7 +147,7 @@ def tampilkan_senyawa(judul, daftar_senyawa):
     else:
         st.info(f"Tidak ada {judul.lower()}.")
 
-# ======= Halaman Home =======
+# homee
 if menu_pilihan == "Home":
     menu = st.selectbox("", ("Deteksi dari Nama Makanan", "Deteksi dari File CSV"))
 
@@ -193,7 +193,7 @@ if menu == "Deteksi dari Nama Makanan":
             except Exception as e:
                 st.error(f"Gagal membaca file: {e}")
 
-# ======= Kamus Senyawa =======
+# kamus
 elif menu_pilihan == "Kamus Senyawa":
     st.subheader("📖 Kamus Senyawa Organik")
     senyawa_dipilih = st.selectbox("", sorted(organic_compounds.keys()))
@@ -208,7 +208,7 @@ elif menu_pilihan == "Kamus Senyawa":
         st.write(f"**Efek:** {data['efek']}")
         st.progress(skor)
 
-# ======= Tentang Kami =======
+# tentang kami
 elif menu_pilihan == "Tentang Kami":
     st.subheader("👩‍🔬 Tentang Aplikasi Ini")
     st.markdown("""
